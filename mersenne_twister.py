@@ -19,19 +19,19 @@ class Generator:
     def generate_sequence(self):
         i = 0
         j = 0
-        n_iter = self.n
-        bin_x = ''
-        y = ''
-        while n_iter > 0:
+        n_iter = 0
+        while n_iter < self.n:
             i = (i + 1) % 256
             j = (j + self.states[i]) % 256
             self.states[i], self.states[j] = self.states[j], self.states[i]
             t = (self.states[i] + self.states[j]) % 256
-            bin_x = bin(self.states[t])[2:]
-            if len(bin_x) < 8:
-                bin_x = '0' * (8 - len(bin_x)) + bin_x
-            y += bin_x[-8:]
-            while len(y) >= self.w and n_iter > 0:
-                self.y_arr.append(int(y[:self.w], 2))
-                y = y[self.w:]
-                n_iter -= 1
+            self.x_arr += [int(x) for x in bin(self.states[t])[2:]]
+            if n_iter * self.w + self.w <= len(self.x_arr):
+                y = ''
+                for w_iter in range(self.w):
+                    y += str(self.x_arr[self.w * n_iter + w_iter])
+                self.y_arr.append(int(y, 2))
+                # tmp = ''.join(str(x) for x in self.x_arr[self.w * n_iter:n_iter * self.w + self.w])
+                n_iter += 1
+            else:
+                continue

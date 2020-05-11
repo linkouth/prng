@@ -1,4 +1,4 @@
-import lfsr, five_params_method, rsa, bbs, rc4
+import lfsr, five_params_method, rsa, bbs, rc4, mersenne_twister
 
 
 def handle_lfsr():
@@ -40,7 +40,25 @@ def handle_rc4():
     print(rc4_generator.get_sequence())
 
 
+def handle_mersenne_twister():
+    n = int(input().strip())
+    p = int(input().strip())
+    w = int(input().strip())
+    r = int(input().strip())
+    q = int(input().strip())
+    a = int(input().strip())
+    u = int(input().strip())
+    s = int(input().strip())
+    t = int(input().strip())
+    l = int(input().strip())
+    b = int(input().strip())
+    c = int(input().strip())
+    x_arr = [int(x) for x in input().strip().split(' ')]
+
+
+
 def main():
+    # handle_mersenne_twister()
     handle_rc4()
     # handle_bbs()
     # handle_rsa()

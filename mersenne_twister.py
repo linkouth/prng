@@ -1,37 +1,62 @@
 class Generator:
-    def __init__(self, n, w, keys):
+    def __init__(self,
+        n,
+        p,
+        w,
+        r,
+        q,
+        a,
+        u,
+        s,
+        t,
+        l,
+        b,
+        c,
+        x_arr,
+    ):
+        self.n = n
+        self.p = p
+        self.w = w
+        self.r = r
+        self.q = q
+        self.a = a
+        self.u = u
+        self.s = s
+        self.t = t
+        self.l = l
+        self.b = b
+        self.c = c
+        self.x_arr = x_arr
         self.n = n
         self.w = w
-        self.keys = keys
-        self.states = [i for i in range(255 + 1)]
-        j = 0
-        for i in range(255 + 1):
-            j = (j + self.states[i] + self.keys[i]) % 256
-            self.states[i], self.states[j] = self.states[j], self.states[i]
 
-        self.x_arr = []
-        self.y_arr = []
+        self.z_arr = []
+
         self.generate_sequence()
 
     def get_sequence(self):
-        return self.y_arr
+        return self.z_arr
 
     def generate_sequence(self):
-        i = 0
-        j = 0
-        n_iter = 0
-        while n_iter < self.n:
-            i = (i + 1) % 256
-            j = (j + self.states[i]) % 256
-            self.states[i], self.states[j] = self.states[j], self.states[i]
-            t = (self.states[i] + self.states[j]) % 256
-            self.x_arr += [int(x) for x in bin(self.states[t])[2:]]
-            if n_iter * self.w + self.w <= len(self.x_arr):
-                y = ''
-                for w_iter in range(self.w):
-                    y += str(self.x_arr[self.w * n_iter + w_iter])
-                self.y_arr.append(int(y, 2))
-                # tmp = ''.join(str(x) for x in self.x_arr[self.w * n_iter:n_iter * self.w + self.w])
-                n_iter += 1
-            else:
-                continue
+        for i in range(self.n):
+            a = bin(self.x_arr[i])[2:]
+            if len(a) < self.w:
+                a = '0' * (self.w - len(a)) + a
+            b = bin(self.x_arr[i + 1])[2:]
+            if len(b) < self.w:
+                b = '0' * (self.w - len(b)) + b
+            a1 = a[::-1][self.r:self.w][::-1]
+            b1 = b[::-1][:self.r][::-1]
+            x1 = int(a1 + b1, 2)
+
+            x = self.x_arr[i + self.q] ^\
+                (x1 >> 1) ^\
+                (self.a * (x1 % 2))
+            x = x % pow(2, self.w)
+            self.x_arr.append(x)
+
+            y = (x ^ (x >> self.u)) % pow(2, self.w)
+            y = y ^ ((y << self.s) & self.b)
+            y = y ^ ((y << self.t) & self.c)
+            z = (y ^ (y >> self.l)) % pow(2, self.w)
+            self.z_arr.append(z)

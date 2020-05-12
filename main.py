@@ -55,11 +55,28 @@ def handle_mersenne_twister():
     c = int(input().strip())
     x_arr = [int(x) for x in input().strip().split(' ')]
 
+    mersenne_generator = mersenne_twister.Generator(
+        n = n,
+        p = p,
+        w = w,
+        r = r,
+        q = q,
+        a = a,
+        u = u,
+        s = s,
+        t = t,
+        l = l,
+        b = b,
+        c = c,
+        x_arr = x_arr
+    )
+    print(mersenne_generator.get_sequence())
+
 
 
 def main():
-    # handle_mersenne_twister()
-    handle_rc4()
+    handle_mersenne_twister()
+    # handle_rc4()
     # handle_bbs()
     # handle_rsa()
     # handle_five_params()

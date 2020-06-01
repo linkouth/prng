@@ -1,4 +1,4 @@
-import lfsr, five_params_method, rsa, bbs, rc4, mersenne_twister
+import lfsr, five_params_method, rsa, bbs, rc4, nlc_lfsr, mersenne_twister
 
 
 def handle_lfsr():
@@ -40,6 +40,30 @@ def handle_rc4():
     print(rc4_generator.get_sequence())
 
 
+def handle_nlc_lfsr():
+    c, k, w = map(lambda item: int(item), input().strip().split(' '))
+    p_arr = []
+    x_start_arr = []
+    m_arr = []
+    j_arr = []
+    for i in range(k):
+        p, x = map(lambda item: int(item), input().strip().split(' '))
+        tmp = input().strip().split(' ')
+        m, j = tmp[0], tmp[1:]
+        p_arr.append(p)
+        x_start_arr.append(x)
+        m_arr.append(m)
+        j_arr.append(j)
+    tmp = input().strip().split(' ')
+    q, j = tmp[0], tmp[1:]
+
+    nlc_lfsr_generator = nlc_lfsr.Generator(
+        c=c, k=k, w=w, p_arr=p_arr,
+        x_start_arr=x_start_arr, m_arr=m_arr, j_arr=j_arr, q=q, j=j
+    )
+    print(nlc_lfsr_generator.get_sequence())
+
+
 def handle_mersenne_twister():
     n = int(input().strip())
     p = int(input().strip())
@@ -75,7 +99,8 @@ def handle_mersenne_twister():
 
 
 def main():
-    handle_mersenne_twister()
+    handle_nlc_lfsr()
+    # handle_mersenne_twister()
     # handle_rc4()
     # handle_bbs()
     # handle_rsa()

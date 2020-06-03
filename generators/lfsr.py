@@ -1,3 +1,6 @@
+from progress_bar import print_progress_bar
+
+
 class Generator:
     def __init__(self, n, p, s, m, j_arr, y_start):
         self.n = n
@@ -13,7 +16,6 @@ class Generator:
         self.y_arr = []
         self.generate_sequence()
 
-
     def get_sequence(self):
         return self.y_arr
 
@@ -26,9 +28,11 @@ class Generator:
             self.x_arr.append(new_x)
 
     def generate_sequence(self):
+        print_progress_bar(0, self.n, prefix='Progress:', suffix='Complete', length=50)
         for n_iter in range(self.n):
             self.generate_next_x()
             line = self.x_arr[-self.s:]
             tmp = ''.join(str(x) for x in line)
             new_y = int(tmp, 2)
             self.y_arr.append(new_y)
+            print_progress_bar(n_iter + 1, self.n, prefix='Progress:', suffix='Complete', length=50)

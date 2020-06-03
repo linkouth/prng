@@ -1,3 +1,6 @@
+from progress_bar import print_progress_bar
+
+
 class Generator:
     def __init__(self,
         c, k, w, p_arr,
@@ -14,10 +17,13 @@ class Generator:
         self.q = int(q)
         self.j = [[int(j) for j in str(item)] for item in j]
 
+        print_progress_bar(0, self.k, prefix='Progress step 1:', suffix='Complete', length=50)
         self.lfsr_generated_list = []
         for i in range(self.k):
             self.lfsr_generated_list.append(self.generate_lfsr_list(int(self.c * self.w / self.p_arr[i] + 1), self.p_arr[i], self.m_arr[i], self.j_arr[i], self.x_start_arr[i]))
+            print_progress_bar(i + 1, self.k, prefix='Progress step 1:', suffix='Complete', length=50)
 
+        print_progress_bar(0, self.c, prefix='Progress step 2:', suffix='Complete', length=50)
         self.y_arr = []
         for c_iter in range(self.c):
             result = []
@@ -32,7 +38,7 @@ class Generator:
                     new_x = new_x ^ qq
                 result.append(new_x)
             self.y_arr.append(int(''.join([str(it) for it in result]), 2))
-
+            print_progress_bar(c_iter + 1, self.k, prefix='Progress step 2:', suffix='Complete', length=50)
 
     def generate_lfsr_list(self, n, p, m, j, start):
         x = []
@@ -46,7 +52,6 @@ class Generator:
                     new_x %= 2
                 x.append(new_x)
         return x[len(temp_first_x):]
-
 
     def to_bin(self, value, size):
         ans = []

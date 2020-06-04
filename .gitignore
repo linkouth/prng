@@ -139,3 +139,4 @@ cython_debug/
 
 # PyCharm folders
 .idea/
+.DS_Store
